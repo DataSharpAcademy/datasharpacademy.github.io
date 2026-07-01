@@ -12,7 +12,7 @@ author: Manuel Chevalier
 description: Following data wherever they lead.
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: /images/see-inside-2.jpeg
+avatar: /images/see-inside.png
 
 #
 # Flags below are optional
@@ -35,6 +35,7 @@ footer-links:
   googleplus: # anything in your profile username that comes after plus.google.com/
   playconsole:
   mastodon: mastodon.social/@ManuelChevalier # <your-mastodon-instance>/@<your-user-name> eg. fosstodon.org/@username
+  bluesky: ManuelChevalier
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
