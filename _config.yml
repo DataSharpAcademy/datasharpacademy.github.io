@@ -35,7 +35,7 @@ footer-links:
   googleplus: # anything in your profile username that comes after plus.google.com/
   playconsole:
   mastodon: mastodon.social/@ManuelChevalier # <your-mastodon-instance>/@<your-user-name> eg. fosstodon.org/@username
-  bluesky: ManuelChevalier
+  bluesky: bsky.app/profile/manuelchevalier.com
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
