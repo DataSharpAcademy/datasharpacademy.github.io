@@ -2,48 +2,92 @@
 layout: default
 ---
 
-<div class="posts">
-  {% for post in paginator.posts %}
-    <article class="post">
-      <a href="{{ site.baseurl }}{{ post.url }}">
-        <h1>{{ post.title }}</h1>
+<section class="intro">
+  <h1>Welcome</h1>
+  <p>
+    Before the questions is the idea.
+  </p>
+  <p>
+    Defining a question often depends on the data one can collect.
+  </p>
+  <p>
+    This notebook documents those investigations: the idea, the questions, the data,
+    the wrong turns and the lessons learned along the way.
+  </p>
+  <p>
+    In these pages, you won't see perfect analyses.
+    You'll see a thought process.
+  </p>
+</section>
 
-        <div>
-          <p class="post_date">{{ post.date | date: "%B %e, %Y" }}</p>
-        </div>
-      </a>
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+
+<section class="projects">
+  <h1>Active investigations</h1>
+  <article class="project">
+    <h2>Running Data Project</h2>
+    <p>
+      I've restarted running after a one year break.
+      Over sixteen weeks, I'm using this opportunity to build a complete data
+      project from scratch, documenting every important step decision along the way.
+      From data collection to, hopefully, insights.
+    </p>
+
+    <p>
+      <a href="/projects/running/">Explore the project →</a>
+    </p>
+  </article>
+</section>
+
+
+<section class="recent-posts">
+  <h1>Latest entries</h1>
+
+  {% for post in site.posts limit:3 %}
+    <article class="post-preview">
+
+      <h2>
+        <a href="{{ post.url | relative_url }}">
+          {{ post.title }}
+        </a>
+      </h2>
+
+      <p class="post_date">
+        {{ post.date | date: "%B %-d, %Y" }}
+      </p>
+
+      <p class="post-excerpt">
+        {{ post.content | strip_html | normalize_whitespace | truncatewords: 50, "…" }}
+        <a href="{{ post.url | relative_url }}">→ Read more</a>
+      </p>
+      <br>
     </article>
   {% endfor %}
+</section>
 
-  <!-- pagination -->
-  {% if paginator.total_pages > 1 %}
-  <div class="pagination">
-    {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
-    {% else %}
-      <span>&laquo; Prev</span>
-    {% endif %}
 
-    {% for page in (1..paginator.total_pages) %}
-      {% if page == paginator.page %}
-        <span class="webjeda">{{ page }}</span>
-      {% elsif page == 1 %}
-        <a href="{{ '/' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
-      {% else %}
-        <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
-      {% endif %}
-    {% endfor %}
+<section class="about">
+  <h1>About</h1>
+  <p>
+    Placeholder.
+  </p>
+  <p>
+    A short paragraph introducing yourself and explaining why you enjoy using
+    data to investigate questions across science, education and everyday life.
+  </p>
+</section>
 
-    {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
-    {% else %}
-      <span>Next &raquo;</span>
-    {% endif %}
-  </div>
-  {% endif %}
-</div>
+
+
+<section class="teaching">
+  <h1>Teaching</h1>
+  <p>
+    Many of the ideas explored in this notebook eventually become workshops,
+    teaching material and practical resources through DataSharp Academy.
+  </p>
+  <p>
+    <a href="https://datasharpacademy.com">
+      Visit DataSharp Academy →
+    </a>
+  </p>
+</section>

@@ -45,12 +45,18 @@
       </div>
 
       <div class="wrapper-footer">
-        <div class="container">
-          <footer class="footer">
-            {% include svg-icons.html %}
-          </footer>
+          <div class="container">
+            <footer class="footer">
+
+              {% include svg-icons.html %}
+
+              <div class="footer-text">
+                <p>&copy; {{ "now" | date: "%Y" }} Manuel Chevalier  ·  <a href="https://DataSharpAcademy.com/" target="_blank">DataSharp Academy</a>.</p>
+              </div>
+
+            </footer>
+          </div>
         </div>
-      </div>
     </div>
 
     {% include analytics.html %}
