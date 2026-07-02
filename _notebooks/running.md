@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: default
 title: Getting started with Reverie
-permalink: /getting-started/
+permalink: /notebooks/running/
 ---
 
 ### Step 1) Fork Reverie to your User Repository

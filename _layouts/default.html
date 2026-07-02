@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
     {% seo title=false %}
     {% include meta.html %}
@@ -11,54 +11,114 @@
 
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/images/favicon-32x32.png">
-    {% include analytics_head.html %}
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="bar"></div>
     <div class="wrapper-container">
-      <div class="wrapper-masthead">
-        <div class="container">
-          <header class="masthead clearfix">
-            <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.baseurl }}{{ site.avatar }}" alt="{{ site.title }}" /></a>
+        <div class="wrapper-masthead">
+            <div class="container">
+                <header class="masthead clearfix">
+                    <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.baseurl }}{{ site.avatar }}" alt="{{ site.title }}" /></a>
 
-            <div class="site-info">
-              <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-              <p class="site-description">{{ site.description }}</p>
+                    <div class="site-info">
+                        <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
+                        <p class="site-description">{{ site.description }}</p>
+                    </div>
+
+                    <nav>
+                        <a href="{{ site.baseurl }}/">Home</a>
+                        <div class="dropdown">
+                            <a href="{{ site.baseurl }}/notebooks">Notebooks</a>
+
+                            <div class="dropdown-content">
+                                <a href="/notebooks/running/">Running</a>
+                                <a href="/notebooks/mosquitoes/">Mosquito Immunity</a>
+                                <a href="/notebooks/tour-de-france/">Tour de France</a>
+                            </div>
+                        </div>
+                        <a href="{{ site.baseurl }}/author">The Author</a>
+                        <a href="{{ site.baseurl }}/search" class="search-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </a>
+                    </nav>
+                </header>
+            </div>
+        </div>
+
+        <div class="wrapper-main">
+            <div id="main" role="main" class="container">
+                {{ content }}
+
+                {% if page.notebook %}
+
+                {% assign notebook_posts = site.posts
+                    | where: "notebook", page.notebook
+                    | sort: "chapter" %}
+
+                    {% assign previous = nil %}
+                    {% assign next = nil %}
+
+                    {% for post in notebook_posts %}
+
+                    {% if post.url == page.url %}
+
+                    {% assign current_index = forloop.index0 %}
+
+                    {% if current_index > 0 %}
+                    {% assign previous_index = current_index | minus: 1 %}
+                    {% assign previous = notebook_posts[previous_index] %}
+                    {% endif %}
+
+                    {% assign next_index = current_index | plus: 1 %}
+                    {% if next_index < notebook_posts.size %}
+                    {% assign next = notebook_posts[next_index] %}
+                    {% endif %}
+
+                    {% endif %}
+
+                    {% endfor %}
+
+                    <nav class="chapter-navigation">
+
+                        <div class="chapter-prev">
+                            {% if previous %}
+                            <a href="{{ previous.url | relative_url }}">
+                                ← Previous: {{ previous.title }}
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        <div class="chapter-next">
+                            {% if next %}
+                            <a href="{{ next.url | relative_url }}">
+                                Next: {{ next.title }} →
+                            </a>
+                            {% endif %}
+                        </div>
+
+                    </nav>
+
+                    {% endif %}
+                </div>
             </div>
 
-            <nav>
-              <a href="{{ site.baseurl }}/">Home</a>
-              <a href="{{ site.baseurl }}/getting-started">Getting Started</a>
-              <a href="{{ site.baseurl }}/search">Search</a>
-              <a href="{{ site.baseurl }}/about">About</a>
-              <a href="{{ site.baseurl }}/archive">Archive</a>
-            </nav>
-          </header>
+            <div class="wrapper-footer">
+                <div class="container">
+                    <footer class="footer">
+
+                        {% include svg-icons.html %}
+
+                        <div class="footer-text">
+                            <p>&copy; {{ "now" | date: "%Y" }} Manuel Chevalier  ·  <a href="https://DataSharpAcademy.com/" target="_blank">DataSharp Academy</a>.</p>
+                        </div>
+
+                    </footer>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="wrapper-main">
-        <div id="main" role="main" class="container">
-          {{ content }}
-        </div>
-      </div>
-
-      <div class="wrapper-footer">
-          <div class="container">
-            <footer class="footer">
-
-              {% include svg-icons.html %}
-
-              <div class="footer-text">
-                <p>&copy; {{ "now" | date: "%Y" }} Manuel Chevalier  ·  <a href="https://DataSharpAcademy.com/" target="_blank">DataSharp Academy</a>.</p>
-              </div>
-
-            </footer>
-          </div>
-        </div>
-    </div>
-
-    {% include analytics.html %}
-  </body>
-</html>
+    </body>
+    </html>
