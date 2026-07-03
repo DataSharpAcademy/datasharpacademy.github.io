@@ -26,3 +26,32 @@ This is a plug-and-play Jekyll theme which you can use on GitHub Pages without e
 - In-built sitemap
 
 Learn more about it [here](https://github.com/amitmerchant1990/reverie) on how to get started.
+
+
+
+
+<section class="about">
+  <h1>About</h1>
+  <p>
+    Placeholder.
+  </p>
+  <p>
+    A short paragraph introducing yourself and explaining why you enjoy using
+    data to investigate questions across science, education and everyday life.
+  </p>
+</section>
+
+
+
+<section class="teaching">
+  <h1>Teaching</h1>
+  <p>
+    Many of the ideas explored in this notebook eventually become workshops,
+    teaching material and practical resources through DataSharp Academy.
+  </p>
+  <p>
+    <a href="https://datasharpacademy.com">
+      Visit DataSharp Academy →
+    </a>
+  </p>
+</section>
