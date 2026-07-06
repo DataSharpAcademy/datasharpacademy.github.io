@@ -57,67 +57,75 @@
                     | where: "notebook", page.notebook
                     | sort: "chapter" %}
 
-                    {% assign previous = nil %}
-                    {% assign next = nil %}
+                {% assign previous = nil %}
+                {% assign next = nil %}
 
-                    {% for post in notebook_posts %}
+                {% for post in notebook_posts %}
 
-                    {% if post.url == page.url %}
+                {% if post.url == page.url %}
 
-                    {% assign current_index = forloop.index0 %}
+                {% assign current_index = forloop.index0 %}
 
-                    {% if current_index > 0 %}
-                    {% assign previous_index = current_index | minus: 1 %}
-                    {% assign previous = notebook_posts[previous_index] %}
-                    {% endif %}
+                {% if current_index > 0 %}
+                {% assign previous_index = current_index | minus: 1 %}
+                {% assign previous = notebook_posts[previous_index] %}
+                {% endif %}
 
-                    {% assign next_index = current_index | plus: 1 %}
-                    {% if next_index < notebook_posts.size %}
-                    {% assign next = notebook_posts[next_index] %}
-                    {% endif %}
+                {% assign next_index = current_index | plus: 1 %}
+                {% if next_index < notebook_posts.size %}
+                {% assign next = notebook_posts[next_index] %}
+                {% endif %}
 
-                    {% endif %}
+                {% endif %}
 
-                    {% endfor %}
+                {% endfor %}
 
-                    <nav class="chapter-navigation">
+                <nav class="chapter-navigation">
 
-                        <div class="chapter-prev">
-                            {% if previous %}
-                            <a href="{{ previous.url | relative_url }}">
-                                ← Previous: {{ previous.title }}
-                            </a>
-                            {% endif %}
-                        </div>
+    <div class="chapter-prev">
+        {% if previous %}
+        <a href="{{ previous.url | relative_url }}">
+            ← Previous: {{ previous.title }}
+        </a>
+        {% endif %}
+    </div>
 
-                        <div class="chapter-next">
-                            {% if next %}
-                            <a href="{{ next.url | relative_url }}">
-                                Next: {{ next.title }} →
-                            </a>
-                            {% endif %}
-                        </div>
+    <div class="chapter-summary">
+        {% assign notebook = site.notebooks | where: "slug", page.notebook | first %}
+        {% if notebook %}
+        <a href="{{ notebook.url | relative_url }}">
+            Home
+        </a>
+        {% endif %}
+    </div>
 
-                    </nav>
+    <div class="chapter-next">
+        {% if next %}
+        <a href="{{ next.url | relative_url }}">
+            Next: {{ next.title }} →
+        </a>
+        {% endif %}
+    </div>
 
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="wrapper-footer">
-                <div class="container">
-                    <footer class="footer">
-
-                        {% include svg-icons.html %}
-
-                        <div class="footer-text">
-                            <p>&copy; {{ "now" | date: "%Y" }} Manuel Chevalier  ·  <a href="https://DataSharpAcademy.com/" target="_blank">DataSharp Academy</a>.</p>
-                        </div>
-
-                    </footer>
-                </div>
+</nav>
+                {% endif %}
             </div>
         </div>
 
-    </body>
-    </html>
+        <div class="wrapper-footer">
+            <div class="container">
+                <footer class="footer">
+
+                    {% include svg-icons.html %}
+
+                    <div class="footer-text">
+                        <p>&copy; {{ "now" | date: "%Y" }} Manuel Chevalier  ·  <a href="https://DataSharpAcademy.com/" target="_blank">DataSharp Academy</a>.</p>
+                    </div>
+
+                </footer>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

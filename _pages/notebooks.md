@@ -19,13 +19,13 @@ Some are currently underway, others are complete, and a few are still waiting fo
             {% if notebooks.size > 0 %}
                 {% case status %}
                     {% when "active" %}
-## Active investigations
+# Active investigations
 
                     {% when "planned" %}
-## Planned investigations
+# Planned investigations
 
                     {% when "complete" %}
-## Completed investigations
+# Completed investigations
 
                 {% endcase %}
 
@@ -45,13 +45,13 @@ Some are currently underway, others are complete, and a few are still waiting fo
     </h2>
 
     <p>
-        {{ notebook.summary }}
+        {{ notebook.description }} <a href="{{ notebook.url | relative_url }}">
+             → Explore notebook
+        </a>
     </p>
 
     <p>
-        <a href="{{ notebook.url | relative_url }}">
-            Explore notebook →
-        </a>
+
     </p>
         </div>
 </div>

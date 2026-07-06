@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Running Data Project
+title: Running
 permalink: /notebooks/running/
 
 status: active          # active | planned | complete
@@ -10,57 +10,59 @@ slug: running
 
 description: >
   Sixteen weeks of rebuilding a running routine while documenting
-  every step of a complete data project, from data collection to
-  interpretation.
+  every step of a complete data project, from data collection,
+  interpretation, and race time predictions.
 
-summary: >
-  Building a complete data project from scratch.
 
-image: /images/notebooks/running/404.png
+image: /images/notebooks/running/main-square.png
+banner: /images/notebooks/running/main.png
 ---
 
-### Step 1) Fork Reverie to your User Repository
+# {{ page.title }}
 
-Fork [this repository](https://github.com/amitmerchant1990/reverie), then rename the repository to `yourgithubusername.github.io`.
+After taking a one-year break from running, I wanted to rebuild my fitness while documenting every decision involved in a complete data science project.
 
-Alternatively, you can use [Use this template](https://github.com/amitmerchant1990/reverie/generate) button if you want to create a repository with a clean commit history which will use Reverie as a template.
+Rather than jumping directly into modelling, I'll start by defining the questions, collecting the data, deciding what to record, and only then move towards exploration and analysis.
 
-Your Jekyll blog will often be viewable immediately at <https://yourgithubusername.github.io> (if it's not, you can often force it to build by completing step 2)
+The goal is not to optimise my running.
 
-### Step 2) Customize and view your site
+The goal is to document how a data scientist thinks.
 
-Enter your site name, description, avatar and many other options by editing the `_config.yml` file. You can easily turn on Google Analytics tracking, Disqus commenting and social icons here.
+<br>
 
-Making a change to `_config.yml` (or any file in your repository) will force GitHub Pages to rebuild your site with jekyll. Your rebuilt site will be viewable a few seconds later at <https://yourgithubusername.github.io> - if not, give it ten minutes as GitHub suggests and it'll appear soon.
+**Status:** {{ page.status | capitalize }}
 
-### Step 3) Publish your first blog post
 
-Create a new file called `/_posts/2019-2-13-Hello-World.md` to publish your first blog post. That's all you need to do to publish your first blog post! This [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) might come in handy while writing the posts.
 
-> You can add additional posts in the browser on GitHub.com too! Just hit the <kbd>Create new file</kbd> button in `/_posts/` to create new content. Just make sure to include the [front-matter](http://jekyllrb.com/docs/frontmatter/) block at the top of each new blog post and make sure the post's filename is in this format: year-month-day-title.md
+{% if page.slug %}
 
-## Using Categories in Reverie
+{% assign chapters = site.posts
+    | where: "notebook", page.slug
+    | sort: "chapter" %}
 
-You can categorize your content based on `categories` in Reverie. For this, you just need to add `categories` in front matter like below:
+{% if chapters.size > 0 %}
 
-For adding single category:
+<h1>Contents</h1>
 
-```md
-categories: JavaScript
-```
+<ol class="chapter-list">
 
-For adding multiple categories:
+{% for chapter in chapters %}
 
-```md
-categories: [PHP, Laravel]
-```
+<li>
+    <a href="{{ chapter.url | relative_url }}">
+        {{ chapter.title }}
+    </a>
+</li>
 
-The contegorized content can be shown over this URL: <https://yourgithubusername.github.io/categories/>
+{% endfor %}
 
-## RSS
+</ol>
 
-The generated [RSS feed](https://en.wikipedia.org/wiki/RSS) of your blog can be found at <https://yourgithubusername.github.io/feed>. You can see the example RSS feed over [here](https://www.amitmerchant.com/reverie/feed).
+{% endif %}
+{% endif %}
 
-## Sitemap
 
-The generated sitemap of your blog can be found at <https://yourgithubusername.github.io/sitemap>. You can see the example sitemap feed over [here](https://www.amitmerchant.com/reverie/sitemap).
+<img
+    class="notebook-banner"
+    src="{{ page.banner | relative_url }}"
+    alt="{{ page.title }}">
