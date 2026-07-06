@@ -6,6 +6,8 @@ date: 2026-07-01
 notebook: running
 chapter: 2
 
+project: Project name
+
 summary: >
   Choosing the right data is the first challenge of any real data project.
 

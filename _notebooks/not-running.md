@@ -1,11 +1,11 @@
 ---
 title: Running Data Project
-permalink: /notebooks/running/
+permalink: /notebooks/noy-running/
 
 status: active          # active | planned | complete
-order: 1
+order: 2
 
-slug: running
+slug: running2
 
 description: >
   Sixteen weeks of rebuilding a running routine while documenting
