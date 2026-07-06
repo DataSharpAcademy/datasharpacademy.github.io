@@ -16,7 +16,7 @@ idea: >
 
 status: published
 
-image: /images/notebooks/running/collecting-data.png
+image: /images/notebooks/running/404.png
 
 linkedin:
 github:

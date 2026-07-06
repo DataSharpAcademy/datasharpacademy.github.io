@@ -1323,3 +1323,48 @@ code.highlighter-rouge {
     padding-top: 25px;
     border-top: 1px solid #e6e6e6;
 }
+
+.notebook-card {
+
+    display: flex;
+    gap: 30px;
+
+    margin: 35px 0 45px;
+    align-items: center;
+}
+
+.notebook-content {
+
+    flex: 1;
+}
+
+.notebook-content h3 {
+
+    margin-top: 0;
+}
+
+.notebook-image {
+    flex: 0 0 150px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 150px;
+    height: 150px;
+
+    padding: 12px;
+
+    border: 1px solid #4a4f54;   /* anthracite */
+    border-radius: 10px;
+
+    background: #fff;
+
+    box-sizing: border-box;
+}
+
+.notebook-image img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}

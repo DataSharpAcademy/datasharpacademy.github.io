@@ -1,11 +1,12 @@
 ---
+layout: default
 title: Running Data Project
-permalink: /notebooks/noy-running/
+permalink: /notebooks/running/
 
-status: active          # active | planned | complete
-order: 2
+status: complete          # active | planned | complete
+order: 1
 
-slug: running2
+slug: running
 
 description: >
   Sixteen weeks of rebuilding a running routine while documenting
@@ -15,7 +16,7 @@ description: >
 summary: >
   Building a complete data project from scratch.
 
-image: /images/notebooks/running.png
+image: /images/notebooks/running/404.png
 ---
 
 ### Step 1) Fork Reverie to your User Repository
