@@ -1,11 +1,11 @@
 ---
 layout: default
-title: The Author
-permalink: /author/
+title: Foreword
+permalink: /foreword/
 ---
 
 
-# Nice to meet you
+# Before we begin
 
 If you’ve found yourself here, we probably have something in common.
 

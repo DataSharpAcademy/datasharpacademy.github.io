@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Running Data Project
 permalink: /notebooks/running/
 
