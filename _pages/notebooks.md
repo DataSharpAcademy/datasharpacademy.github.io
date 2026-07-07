@@ -1,14 +1,14 @@
 ---
 layout: default
-title: Getting started with Reverie
+title: My dusty shelf
 permalink: /notebooks/
 ---
 
 # Notebooks
 
-Each notebook documents an investigation from its initial idea to its conclusions.
+Each notebook documents an investigation from its initial idea to its conclusions. 
 
-Some are currently underway, others are complete, and a few are still waiting for the right moment to begin.
+Some are currently underway, others are complete, and a few are still brewing, waiting for the right moment to begin.
 
 {% assign statuses = "active,planned,complete" | split: "," %}
     {% for status in statuses %}
