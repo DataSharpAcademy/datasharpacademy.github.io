@@ -1,13 +1,32 @@
 ---
+layout: null
 ---
-[
-  {% for post in site.posts %}
-    {
 
-      "title"    : "{% if post.title != "" %}{{ post.title | escape }}{% else %}{{ post.excerpt | strip_html |  escape | strip }}{%endif%}",
-      "url"      : "{{ site.baseurl }}{{ post.url }}",
-      "category" : "{{ post.categories | join: ', '}}",
-      "date"     : "{{ post.date | date: "%B %e, %Y" }}"
-    } {% unless forloop.last %},{% endunless %}
-  {% endfor %}
+[
+{% assign comma = false %}
+
+{% for notebook in site.notebooks %}
+{% if comma %},{% endif %}
+{
+    "title": {{ notebook.title | append: " (Notebook)" | jsonify }},
+    "summary": {{ notebook.description | jsonify }},
+    "keywords": {{ notebook.keywords | join: " • " | jsonify }},
+    "content": {{ notebook.content | strip_html | normalize_whitespace | jsonify }},
+    "url": {{ notebook.url | relative_url | jsonify }}
+}
+{% assign comma = true %}
+{% endfor %}
+
+{% for post in site.posts %}
+{% if comma %},{% endif %}
+{
+    "title": {{ post.project | append: " • " | append: post.title | append: " (Chapter)" | jsonify }},
+    "summary": {{ post.summary | jsonify }},
+    "keywords": {{ post.keywords | join: " • " | jsonify }},
+    "content": {{ post.content | strip_html | normalize_whitespace | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }}
+}
+{% assign comma = true %}
+{% endfor %}
+
 ]

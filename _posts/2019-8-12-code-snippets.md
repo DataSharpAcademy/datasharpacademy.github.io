@@ -6,7 +6,7 @@ date: 2026-05-01
 notebook: running
 chapter: 1
 
-project: Project name
+project: Running
 
 summary: >
   Choosing the right data is the first challenge of any real data project.
@@ -15,6 +15,17 @@ idea: >
   The data you collect determine the questions you can answer.
 
 status: published
+
+
+
+keywords:
+  - data collection
+  - experimental design
+  - running
+  - GPS
+  - variables
+  - measurement
+  - planning
 
 linkedin:
 github:
