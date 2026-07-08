@@ -4,7 +4,7 @@ title: "Structure from the start"
 date: 2026-01-01
 
 notebook: running
-chapter: 1
+chapter: 2
 
 project: Running
 
