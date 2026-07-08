@@ -361,15 +361,15 @@ nav {
   }
 
   a {
-    margin-left: 15px;
+    margin-left: 20px;
     color: $darkGray;
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
 
     @include mobile {
-      margin: 0 7px;
-      color: $darkGray;
+      margin: 23px 7px 0 7px;
+      color: $blue;
     }
   }
 }
