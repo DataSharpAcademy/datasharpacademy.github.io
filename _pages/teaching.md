@@ -12,15 +12,18 @@ How to approach data. How to build a controlled workflow. How to reframe a probl
 
 Those are the habits that lead to independence.
 
-One analogy I often use is that of a scientist in a laboratory. Nobody walks into a lab, grabs a few colourful bottles, mixes them together, and hopes something useful happens. Every experiment starts with a question, a strategy, and a plan.
+One analogy I often use to describe that mindset is that of a scientist in a laboratory. Nobody walks into a lab, grabs a few colourful bottles, mixes them together, and hopes something useful happens. Data analysis deserves exactly the same discipline. Yet many people approach a computer exactly like this.
 
-Data analysis deserves exactly the same discipline. So why should we treat computer work any differently?
+<img
+    class="half-width-image"
+    src="{{ '/images/teaching/laboratory-chaos.png' | relative_url }}"
+    alt="A scientist randomly mixing colourful chemicals together.">
 
-**One thing I've noticed is that most students I had, and colleagues I worked with, didn't struggle with writing code. They struggled with a lack of structure and direction. They struggled with deciding what to do next.**
+Most students I had, and colleagues I worked with, didn't really struggle with writing code. **They struggled with a lack of structure and direction. They struggled with deciding what to do next.**
 
-And there are good reasons for that. Computer science moves incredibly fast. Languages evolve. Packages change. AI models appear almost weekly. What you learned yesterday can feel outdated tomorrow.
+And there are good reasons for that. Computer science moves incredibly fast. Languages evolve. Packages change. AI models appear almost weekly. The tool you learned about yesterday can be outdated tomorrow.
 
-Once you develop that skill, your value shifts from *"the person who knows method X"* to *"the person who knows how to solve problems."*
+But once you develop that mindset of process over technique, your value shifts from *"the person who knows method X"* to *"the person who knows how to solve problems."*
 
 That flexibility gives you independence. That's what I want for you.
 
@@ -31,11 +34,11 @@ That flexibility gives you independence. That's what I want for you.
 
 Artificial intelligence has transformed the way I work. And what I teach.
 
-When I think back to learning my first programming languages, I mostly remember syntax errors, forgotten arguments, and constantly mixing up R and Python. That was simply part of learning.
+When I think back to learning my first programming language ([Scheme](https://en.wikipedia.org/wiki/Scheme_(programming_language)) -- but why is the only thing I can ask...), I mostly remember syntax errors, and forgotten arguments. That was simply part of learning.
 
-Today, beginners have an assistant that can write working code in seconds. What a fantastic time to learn data science!
+Today, beginners have an assistant that can write working code in seconds. This changes how we write code, but not how we solve problems.
 
-But AI has not replaced understanding. It hasn't replaced judgement. And it certainly hasn't replaced curiosity.
+AI has not replaced understanding. It hasn't replaced judgement. And it certainly hasn't replaced curiosity.
 
 You still need to define the problem, decide whether the proposed solution makes sense, and recognise when something has gone wrong.
 
@@ -60,19 +63,14 @@ Most of the important decisions happen before the first line of code.
 - Can those data answer the question?
 - What assumptions are we making?
 
-Only once those questions have good answers does it make sense to think about methods, packages, or programming languages.
-
-That's also why I prefer teaching with real data.
-
-Real projects rarely begin with a perfectly curated dataset waiting to be analysed. They begin with inconsistent names, missing values, unexpected formats, and a series of decisions that need to be made before any analysis can even begin.
-
-Preparing data for analysis isn't a preliminary step. **Preparing data for analysis is data science**.
+Only once those questions have good answers does it make sense to pick methods, packages, and programming languages.
 
 Once the foundations are solid, coding becomes surprisingly straightforward. The path is clear, every step has a purpose, and the tools become exactly what they should be: tools.
 
 That's the rhythm I try to teach.
 
-Slow at the beginning. Faster at the end.
+Slow at the beginning. Faster at the end. That’s more than a more efficient workflow. It’s also a calmer one.
+
 
 
 
@@ -80,7 +78,7 @@ Slow at the beginning. Faster at the end.
 
 - I don't teach people to memorise syntax. I want you to remember _concepts_.
 - I don't teach recipes that only work in one situation. I want you to understand _processes_.
-- I don't teach blind trust in AI. I want you to _understand every suggestion AI makes_.
+- I don't teach blind trust in AI. I want you to _understand why its suggestion makes sense_.
 - And I don't believe there is a single "correct" workflow that applies to every project. There are many ways to go from A to B, and _the best way is the way that is the easiest for YOU based on your current skillset_.
 
 Good data science depends on judgement.
@@ -93,13 +91,13 @@ Everything else can be looked up.
 
 # Want to learn together?
 
-Everything you've read on this page reflects how I design my workshops, in which the goal is to help people become more independent with their day-to-day data work.
+This philosophy reflects how I design my workshops, in which the goal is to help people become more independent with their day-to-day data work.
 
 Whether I'm teaching a public workshop, designing training for a research institute, or working with a small team, the objective is always the same: help people think more clearly about data so they can tackle new problems with confidence.
 
 That’s the philosophy behind [DataSharp Academy](https://datasharpacademy.com).
 
-If that philosophy resonates with you, I'd be delighted to work with you or your organisation. Although I already have a collection of ready-made workshops available, I'm always happy to design a workshop around your questions, datasets, and objectives. So let's talk and see what can be done.
+If that philosophy resonates with you, I'd be delighted to work with you or your organisation. I already have a collection of workshops covering many aspects of data science, but I’m equally happy to design one around your questions, datasets, and objectives. So let's talk and see what can be done.
 
 I hope we'll get the opportunity to learn together.
 

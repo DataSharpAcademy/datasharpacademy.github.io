@@ -1416,3 +1416,12 @@ code.highlighter-rouge {
     max-width: 100%;
     border-radius: 8px;
 }
+
+
+.half-width-image {
+    display: block;
+    width: 100%;
+    max-width: 400px;   /* adjust until it feels right */
+    margin: 2rem auto;
+    padding: 0px;
+}
