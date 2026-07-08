@@ -120,7 +120,7 @@ It gets the data from my Garmin account automatically, processes all these `JSON
 
 <img
     class="post-image"
-    src="{{ '/images/notebooks/running/GarminDB-github.png' | relative_url }}"
+    src="{{ '/images/notebooks/running/GarminDB-GitHub-screenshot.png' | relative_url }}"
     alt="Garmin dashboard">
 
 [https://github.com/tcgoetz/GarminDB](https://github.com/tcgoetz/GarminDB)
