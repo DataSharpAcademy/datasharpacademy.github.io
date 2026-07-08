@@ -56,6 +56,7 @@
 
                 {% assign notebook_posts = site.posts
                     | where: "notebook", page.notebook
+                    | where: "status", "published"
                     | sort: "chapter" %}
 
                 {% assign previous = nil %}
@@ -86,7 +87,7 @@
     <div class="chapter-prev">
         {% if previous %}
         <a href="{{ previous.url | relative_url }}">
-            ← Previous: {{ previous.title }}
+            ← {{ previous.title }}
         </a>
         {% endif %}
     </div>
@@ -95,7 +96,7 @@
         {% assign notebook = site.notebooks | where: "slug", page.notebook | first %}
         {% if notebook %}
         <a href="{{ notebook.url | relative_url }}">
-            TOC
+            Overview
         </a>
         {% endif %}
     </div>
@@ -103,7 +104,7 @@
     <div class="chapter-next">
         {% if next %}
         <a href="{{ next.url | relative_url }}">
-            Next: {{ next.title }} →
+            {{ next.title }} →
         </a>
         {% endif %}
     </div>
