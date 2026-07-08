@@ -1330,6 +1330,26 @@ code.highlighter-rouge {
     border-top: 1px solid #e6e6e6;
 }
 
+.chapter-tooltip {
+    position: fixed;
+    max-width: 320px;
+    padding: 10px 14px;
+
+    background: rgba(47,51,61,.97);
+    color: #f5f5f5;
+
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+
+    font-size: 15px;
+    line-height: 1.5;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .15s ease;
+    z-index: 9999;
+}
+
 .notebook-card {
 
     display: flex;

@@ -65,7 +65,10 @@ The notebook will track my running program and a new chapter documenting a new s
 {% for chapter in chapters %}
 
 <li>
-    <a href="{{ chapter.url | relative_url }}">
+    <a
+        href="{{ chapter.url | relative_url }}"
+        data-summary="{{ chapter.summary }}"
+        class="chapter-link">
         {{ chapter.title }}
     </a>
 </li>
