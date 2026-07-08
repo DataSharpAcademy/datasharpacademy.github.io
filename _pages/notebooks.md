@@ -6,9 +6,14 @@ permalink: /notebooks/
 
 # Notebooks
 
-Each notebook documents an investigation from its initial idea to its conclusions. 
+Each notebook follows an investigation from its initial idea to wherever it eventually leads.
 
-Some are currently underway, others are complete, and a few are still brewing, waiting for the right moment to begin.
+Some are currently underway, others are complete, and a few are still brewing, waiting for the right moment.
+
+<br>
+
+Each notebook tells a story. Each chapter captures one stage of that story. While there is continuity between chapters, feel free to jump straight to the ones that interest you most. The notebooks are meant to be explored, not necessarily read from beginning to end.
+
 
 {% assign statuses = "active,planned,complete" | split: "," %}
     {% for status in statuses %}
@@ -46,7 +51,7 @@ Some are currently underway, others are complete, and a few are still brewing, w
 
     <p>
         {{ notebook.description }} <a href="{{ notebook.url | relative_url }}">
-             → Explore notebook
+             → Grab notebook 📓
         </a>
     </p>
 
