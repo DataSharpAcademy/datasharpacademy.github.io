@@ -343,7 +343,7 @@ p > img {
   font-size: 16px;
 
   @include mobile {
-    margin: 3px 0;
+    margin: 10px 0 40px 0;
   }
 }
 
@@ -368,7 +368,7 @@ nav {
     letter-spacing: 1px;
 
     @include mobile {
-      margin: 23px 7px 0 7px;
+      margin: 0 7px;
       color: $blue;
     }
   }
