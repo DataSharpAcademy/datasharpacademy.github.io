@@ -53,7 +53,7 @@ layout: default
 
             <p>
                 <a href="{{ notebook.url | relative_url }}">
-                    Grab notebook 📓 
+                    Grab notebook 📓
                 </a>
             </p>
         </article>
@@ -65,7 +65,10 @@ layout: default
     <section class="recent-posts">
         <h1>Latest notebook entries</h1>
 
-        {% for post in site.posts limit:3 %}
+        {% assign published_posts = site.posts
+            | where: "status", "published" %}
+
+        {% for post in published_posts limit:3 %}
         <article class="post-preview">
 
             <h2>

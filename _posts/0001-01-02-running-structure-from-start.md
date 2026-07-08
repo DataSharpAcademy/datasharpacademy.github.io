@@ -1,26 +1,29 @@
 ---
 layout: default
-title: "Organising your data"
-date: 2026-07-14
+title: "Structure from the start"
+date: 2026-01-01
 
 notebook: running
-chapter: 2
+chapter: 1
 
-project: Project name
+project: Running
 
 summary: >
-  Choosing the right data is the first challenge of any real data project.
+  Abstract
 
-idea: >
-  The data you collect determine the questions you can answer.
+status: ongoing
 
-status: published
+keywords:
+  -
 
-image: /images/notebooks/running/404.png
 
 linkedin:
 github:
 ---
+
+
+
+I could have spent several evenings writing code to extract and reorganise the Garmin files myself. But that's not the problem I’m interested in solving.
 
 
 

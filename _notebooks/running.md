@@ -65,12 +65,23 @@ The notebook will track my running program and a new chapter documenting a new s
 {% for chapter in chapters %}
 
 <li>
+
+{% if chapter.status == "published" %}
+
     <a
         href="{{ chapter.url | relative_url }}"
         data-summary="{{ chapter.summary }}"
         class="chapter-link">
         {{ chapter.title }}
     </a>
+
+{% elsif chapter.status == "ongoing" %}
+
+
+    <em style="color:#888;">Coming soon:
+    {{ chapter.title }}</em>
+{% endif %}
+
 </li>
 
 {% endfor %}
