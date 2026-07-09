@@ -4,13 +4,13 @@
       content="width=device-width, initial-scale=1">
 
 <meta name="author"
-      content="{{ site.name }}">
+      content="{{ site.author }}">
 
 <meta property="og:title"
       content="{{ page.title | default: site.title }}">
 
 <meta property="og:description"
-      content="{{ page.description | default: page.excerpt | strip_html | default: site.description }}">
+      content="{{ page.description | default: page.excerpt | strip_html | default: site.seo_description }}">
 
 <meta property="og:image"
       content="{{ site.url }}{{ page.image | default: site.avatar }}">
@@ -28,7 +28,7 @@
       content="{{ page.title | default: site.title }}">
 
 <meta name="twitter:description"
-      content="{{ page.description | default: page.excerpt | strip_html | default: site.description }}">
+      content="{{ page.description | default: page.excerpt | strip_html | default: site.seo_description }}">
 
 <meta name="twitter:image"
       content="{{ site.url }}{{ page.image | default: site.avatar }}">

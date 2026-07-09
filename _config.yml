@@ -11,6 +11,11 @@ author: Manuel Chevalier
 # Short bio or description (displayed in the header)
 description: Following data wherever they lead.
 
+seo_description: >
+  Real data science begins long before coding. Follow complete investigations
+  from idea to conclusion, documenting how questions are refined, data are
+  collected, analysed, and interpreted.
+
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: /images/see-inside.png
 
