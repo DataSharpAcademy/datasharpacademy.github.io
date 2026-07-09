@@ -13,6 +13,9 @@ summary: >
 
 status: published
 
+image: /images/notebooks/running/main.png
+
+
 keywords:
   - data collection
   - running

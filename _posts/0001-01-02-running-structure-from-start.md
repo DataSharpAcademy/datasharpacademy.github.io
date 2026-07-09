@@ -14,6 +14,9 @@ summary: >
 status: ongoing
 sitemap: false ## Turn to true when published
 
+image: /images/notebooks/running/main.png
+
+
 keywords:
   -
 

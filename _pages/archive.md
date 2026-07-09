@@ -2,6 +2,7 @@
 layout: page
 permalink: /archive/
 title: Posts Archive
+sitemap: false ## Turn to true when published
 ---
 
 

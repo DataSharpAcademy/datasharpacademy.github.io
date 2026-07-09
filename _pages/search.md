@@ -2,6 +2,7 @@
 layout: default
 title: Search
 permalink: /search/
+sitemap: false ## Turn to true when published
 ---
 
 <div id="search-container">
