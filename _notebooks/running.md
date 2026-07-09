@@ -14,8 +14,9 @@ description: >
   interpretation, and race time predictions.
 
 
-image: /images/notebooks/running/main-square.png
-banner: /images/notebooks/running/main.png
+thumbnail: /images/notebooks/running/main-square.png
+
+image: /images/notebooks/running/main.png
 ---
 
 # {{ page.title }}
@@ -94,5 +95,5 @@ The notebook will track my running program and a new chapter documenting a new s
 
 <img
     class="notebook-banner"
-    src="{{ page.banner | relative_url }}"
+    src="{{ page.image | relative_url }}"
     alt="{{ page.title }}">

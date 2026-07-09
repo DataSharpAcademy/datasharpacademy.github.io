@@ -38,7 +38,7 @@ Each notebook tells a story. Each chapter captures one stage of that story. Whil
 
 <div class="notebook-card">
     <div class="notebook-image">
-        <img src="{{ notebook.image | relative_url }}"
+        <img src="{{ notebook.thumbnail | relative_url }}"
         alt="{{ notebook.title }}">
     </div>
 
