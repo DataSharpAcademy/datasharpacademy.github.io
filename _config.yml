@@ -9,9 +9,9 @@ name: Enter the Mind of a Data Scientist
 author: Manuel Chevalier
 
 # Short bio or description (displayed in the header)
-description: Following data wherever they lead.
+tagline: Following data wherever they lead.
 
-seo_description: >
+description: >
   Real data science begins long before coding. Follow complete investigations
   from idea to conclusion, documenting how questions are refined, data are
   collected, analysed, and interpreted.
