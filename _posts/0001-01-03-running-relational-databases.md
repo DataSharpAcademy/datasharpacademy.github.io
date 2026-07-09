@@ -12,6 +12,7 @@ summary: >
   Abstract
 
 status: ongoing
+sitemap: false ## Turn to true when published
 
 keywords:
   -
