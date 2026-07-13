@@ -74,60 +74,61 @@
 
                 {% assign notebook_posts = site.posts
                     | where: "notebook", page.notebook
-                    | where: "status", "published"
                     | sort: "chapter" %}
 
                 {% assign previous = nil %}
                 {% assign next = nil %}
+                {% assign last_visible = nil %}
+                {% assign current_found = false %}
 
                 {% for post in notebook_posts %}
 
-                {% if post.url == page.url %}
+                    {% if post.status == "published" and post.date <= site.time %}
 
-                {% assign current_index = forloop.index0 %}
+                        {% if current_found %}
+                            {% assign next = post %}
+                            {% break %}
+                        {% endif %}
 
-                {% if current_index > 0 %}
-                {% assign previous_index = current_index | minus: 1 %}
-                {% assign previous = notebook_posts[previous_index] %}
-                {% endif %}
+                        {% if post.url == page.url %}
+                            {% assign previous = last_visible %}
+                            {% assign current_found = true %}
+                        {% else %}
+                            {% assign last_visible = post %}
+                        {% endif %}
 
-                {% assign next_index = current_index | plus: 1 %}
-                {% if next_index < notebook_posts.size %}
-                {% assign next = notebook_posts[next_index] %}
-                {% endif %}
-
-                {% endif %}
+                    {% endif %}
 
                 {% endfor %}
 
                 <nav class="chapter-navigation">
 
-    <div class="chapter-prev">
-        {% if previous %}
-        <a href="{{ previous.url | relative_url }}">
-            ← {{ previous.title }}
-        </a>
-        {% endif %}
-    </div>
+                    <div class="chapter-prev">
+                        {% if previous %}
+                        <a href="{{ previous.url | relative_url }}">
+                            ← {{ previous.title }}
+                        </a>
+                        {% endif %}
+                    </div>
 
-    <div class="chapter-summary">
-        {% assign notebook = site.notebooks | where: "slug", page.notebook | first %}
-        {% if notebook %}
-        <a href="{{ notebook.url | relative_url }}">
-            Overview
-        </a>
-        {% endif %}
-    </div>
+                    <div class="chapter-summary">
+                        {% assign notebook = site.notebooks | where: "slug", page.notebook | first %}
+                        {% if notebook %}
+                        <a href="{{ notebook.url | relative_url }}">
+                            Overview
+                        </a>
+                        {% endif %}
+                    </div>
 
-    <div class="chapter-next">
-        {% if next %}
-        <a href="{{ next.url | relative_url }}">
-            {{ next.title }} →
-        </a>
-        {% endif %}
-    </div>
+                    <div class="chapter-next">
+                        {% if next %}
+                        <a href="{{ next.url | relative_url }}">
+                            {{ next.title }} →
+                        </a>
+                        {% endif %}
+                    </div>
 
-</nav>
+                </nav>
                 {% endif %}
             </div>
         </div>
