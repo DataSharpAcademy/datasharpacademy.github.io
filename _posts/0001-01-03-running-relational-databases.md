@@ -24,3 +24,14 @@ keywords:
 linkedin:
 github:
 ---
+
+<div class="investigation-progress">
+    <p class="investigation-progress-title">
+        Running notebook: Investigation progress
+    </p>
+
+    <ul>
+        <li>Getting hold of the data</li>
+        <li>Using a tool discovered on GitHub</li>
+    </ul>
+</div>
