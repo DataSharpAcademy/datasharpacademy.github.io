@@ -66,8 +66,7 @@ The notebook will track my running program and a new chapter documenting a new s
 {% for chapter in chapters %}
 
 <li>
-
-{% if chapter.status == "published" %}
+{% if chapter.status == "published" and chapter.date <= site.time %}
 
     <a
         href="{{ chapter.url | relative_url }}"
@@ -76,13 +75,14 @@ The notebook will track my running program and a new chapter documenting a new s
         {{ chapter.title }}
     </a>
 
-{% elsif chapter.status == "ongoing" %}
+{% elsif chapter.status == "ongoing"
+    or chapter.date > site.time %}
 
+    <em style="color:#888;">
+        Coming soon: {{ chapter.title }}
+    </em>
 
-    <em style="color:#888;">Coming soon:
-    {{ chapter.title }}</em>
 {% endif %}
-
 </li>
 
 {% endfor %}

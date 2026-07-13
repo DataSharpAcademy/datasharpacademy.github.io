@@ -102,3 +102,5 @@ exclude:
   - vendor
   - vendor/bundle
   - node_modules
+
+future: true

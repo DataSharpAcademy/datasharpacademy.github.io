@@ -68,24 +68,31 @@ layout: default
         {% assign published_posts = site.posts
             | where: "status", "published" %}
 
-        {% for post in published_posts limit:3 %}
-        <article class="post-preview">
+        {% assign visible_count = 0 %}
 
-            <h2>
-                <a href="{{ post.url | relative_url }}">
-                    {{ post.project }} • {{ post.title }}
-                </a>
-            </h2>
+        {% for post in published_posts %}
+            {% if post.date <= site.time and visible_count < 3 %}
 
-            <p class="post_date">
-                {{ post.date | date: "%B %-d, %Y" }}
-            </p>
+            <article class="post-preview">
+                <h2>
+                    <a href="{{ post.url | relative_url }}">
+                        {{ post.project }} • {{ post.title }}
+                    </a>
+                </h2>
 
-            <p class="post-excerpt">
-                {{ post.summary }}
-                <a href="{{ post.url | relative_url }}">→ Skim to chapter 📖</a>
-            </p>
-            <br>
-        </article>
+                <p class="post_date">
+                    {{ post.date | date: "%B %-d, %Y" }}
+                </p>
+
+                <p class="post-excerpt">
+                    {{ post.summary }}
+                    <a href="{{ post.url | relative_url }}">→ Skim to chapter 📖</a>
+                </p>
+
+                <br>
+            </article>
+
+            {% assign visible_count = visible_count | plus: 1 %}
+            {% endif %}
         {% endfor %}
     </section>
