@@ -99,4 +99,6 @@ include: ['_pages']
 exclude:
   - Gemfile
   - Gemfile.lock
-  - README.md
+  - vendor
+  - vendor/bundle
+  - node_modules
