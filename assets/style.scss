@@ -453,7 +453,7 @@ nav {
 blockquote {
     margin: 2em 0;
 
-    padding: 1em 1.4em;
+    padding: 0.5em 1.4em;
 
     background: #f7f8f9;
     border-left: 4px solid #5f8792;
@@ -467,7 +467,7 @@ blockquote {
 }
 
 blockquote p:first-child::before {
-    content: "Takeaway";
+    content: "Side note";
     display: block;
 
     margin-bottom: .5em;
@@ -1424,4 +1424,27 @@ code.highlighter-rouge {
     max-width: 400px;   /* adjust until it feels right */
     margin: 2rem auto;
     padding: 0px;
+}
+
+.investigation-progress {
+  margin: 0 0 2rem;
+  padding-bottom: 0.75rem;
+  color: $gray;
+  border-bottom: 1px solid $lightGray;
+
+  .investigation-progress-title {
+    margin: 0 0 0.35rem;
+    color: inherit;
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  li {
+    margin: 0.15rem 0;
+  }
 }
