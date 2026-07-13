@@ -9,7 +9,9 @@ chapter: 2
 project: Running
 
 summary: >
-  Abstract
+  GitHub can feel intimidating at first. Learn how to evaluate an open-source
+  project, install it safely using virtual environments, and integrate it into
+  your own data science workflow.
 
 status: published
 sitemap: true ## Turn to true when published
