@@ -1448,3 +1448,34 @@ code.highlighter-rouge {
     margin: 0.15rem 0;
   }
 }
+
+
+.post-figure {
+    margin: 2rem 0;
+}
+
+.post-figure .post-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+.post-caption {
+    margin-top: 0.3rem;
+    //padding-top: 0.1rem;
+    //border-top: 1px solid #d8d8d8;
+    color: #444;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.post-caption strong {
+    color: #222;
+    font-weight: 600;
+}
+
+.post-caption code {
+    color: inherit;
+    font-size: 1.05em;
+}
