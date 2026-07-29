@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "From SQLite to R"
-date: 2026-01-01 ## Change the date to release data
+date: 2026-07-28 ## Change the date to release data
 
 notebook: running
 chapter: 4
