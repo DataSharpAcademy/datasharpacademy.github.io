@@ -151,7 +151,7 @@ The `path()` function comes from `fs` and builds a path from a sequence of folde
 Before opening the database, let's confirm that `garmin_activities.db` is where we expect it to be (in the DBs folder of my working directory).
 
 ```{r test-fs-2}
-unlist( dir_map( "DBs", identity ) )
+unlist( dir_map( "_inputs/DBs", identity ) )
 ```
 
 Next, we tell R to use this file as a data source. This creates a connection object, which you can think of as an open communication channel between R and the database.
@@ -159,7 +159,7 @@ Next, we tell R to use this file as a data source. This creates a connection obj
 ```{r connect-db}
 con <- DBI::dbConnect(              ## Open the connection
     RSQLite::SQLite(),              ## Specify the database type
-    dbname = "DBs/garmin_activities.db" ## Point to the database file
+    dbname = "_inputs/DBs/garmin_activities.db" ## Point to the database file
 )
 ```
 
@@ -193,9 +193,17 @@ The slightly strange result is a feature, not a bug. The database may contain mi
 
 We can still manipulate the lazy table as if it were an ordinary R object, although the data are still inside the database. `dbplyr` records each step, translates it into SQL, and waits. Only when we call `collect()` does the query run and the result enter R's memory.
 
-```{r collect-activities}
+```{r collect-activities, echo=TRUE, eval=FALSE}
 collect(activities) |> nrow()
 ```
+
+```{r collect-activities-backend, echo=FALSE, eval=TRUE}
+activities  |>
+    filter(start_time < "2026-07-28") |>
+    collect() |>
+    nrow()
+```
+
 See the difference? `collect()` is the function that pulls the data into R. Until then, `activities` is only a connection to a table inside the database.
 
 
@@ -206,10 +214,18 @@ My `garmin_activities.db` database contains my runs, but it also contains cyclin
 
 We can isolate the relevant runs by treating `activities` like an ordinary data frame and writing a standard `dplyr` pipeline. We just need to remember to call `collect()` at the end:
 
-```{r collect-runs}
+```{r collect-runs, echo=TRUE, eval=FALSE}
 my_runs <-
     activities |>
         filter(sport == "running", start_time >= "2026-06-29") |>
+        collect()
+my_runs
+```
+
+```{r collect-runs-backend, echo=FALSE, eval=TRUE}
+my_runs <-
+    activities |>
+        filter(sport == "running", start_time >= "2026-06-29", start_time < "2026-07-28") |>
         collect()
 my_runs
 ```
@@ -223,12 +239,22 @@ Behind the scenes, `dbplyr` translates the pipeline above into an SQL query. You
 
 The structure is actually quite similar to the pipeline, although SQL relies on its own specific keywords instead of using functions. Let's unpack it briefly:
 
-```{r sql-ex-req}
+```{r sql-ex-req, echo=TRUE, eval=FALSE}
 query <- paste(
     "SELECT * ", ## Select every column
     "FROM activities ", ## Choose the table
     "WHERE sport = 'running' ", ## First filter
         "AND start_time >= '2026-06-29'" ## Second filter
+)
+```
+
+```{r sql-ex-req-backend, echo=FALSE, eval=TRUE}
+query <- paste(
+    "SELECT * ", ## Select every column
+    "FROM activities ", ## Choose the table
+    "WHERE sport = 'running' ", ## First filter
+        "AND start_time >= '2026-06-29' ", ## Second filter
+        "AND start_time <  '2026-07-28'" ## Second filter
 )
 ```
 

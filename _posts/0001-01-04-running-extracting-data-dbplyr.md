@@ -162,12 +162,12 @@ Before opening the database, let’s confirm that `garmin_activities.db`
 is where we expect it to be (in the DBs folder of my working directory).
 
 ``` r
-unlist( dir_map( "DBs", identity ) )
+unlist( dir_map( "_inputs/DBs", identity ) )
 ```
 
-    ## [1] "DBs/garmin.db"            "DBs/garmin_activities.db"
-    ## [3] "DBs/garmin_monitoring.db" "DBs/garmin_summary.db"   
-    ## [5] "DBs/summary.db"
+    ## [1] "_inputs/DBs/garmin.db"            "_inputs/DBs/garmin_activities.db"
+    ## [3] "_inputs/DBs/garmin_monitoring.db" "_inputs/DBs/garmin_summary.db"   
+    ## [5] "_inputs/DBs/summary.db"
 
 Next, we tell R to use this file as a data source. This creates a
 connection object, which you can think of as an open communication
@@ -176,7 +176,7 @@ channel between R and the database.
 ``` r
 con <- DBI::dbConnect(              ## Open the connection
     RSQLite::SQLite(),              ## Specify the database type
-    dbname = "DBs/garmin_activities.db" ## Point to the database file
+    dbname = "_inputs/DBs/garmin_activities.db" ## Point to the database file
 )
 ```
 
@@ -211,7 +211,7 @@ activities
 ```
 
     ## # A query:  ?? x 49
-    ## # Database: sqlite 3.53.1 [/Users/palaeosaurus/DataSharp/enter-the-mind/running/DBs/garmin_activities.db]
+    ## # Database: sqlite 3.53.1 [/Users/palaeosaurus/DataSharp/enter-the-mind/running/_inputs/DBs/garmin_activities.db]
     ##    activity_id name            description type  course_id  laps sport sub_sport
     ##    <chr>       <chr>           <chr>       <chr>     <int> <int> <chr> <chr>    
     ##  1 22223733558 Strength        <NA>        unca…        NA     1 fitn… strength…
@@ -260,7 +260,7 @@ records each step, translates it into SQL, and waits. Only when we call
 collect(activities) |> nrow()
 ```
 
-    ## [1] 214
+    ## [1] 220
 
 See the difference? `collect()` is the function that pulls the data into
 R. Until then, `activities` is only a connection to a table inside the
@@ -285,7 +285,7 @@ my_runs <-
 my_runs
 ```
 
-    ## # A tibble: 7 × 49
+    ## # A tibble: 8 × 49
     ##   activity_id name             description type  course_id  laps sport sub_sport
     ##   <chr>       <chr>            <chr>       <chr>     <int> <int> <chr> <chr>    
     ## 1 23628587479 Greifswald - W3… <NA>        unca…        NA    41 runn… generic  
@@ -295,6 +295,7 @@ my_runs
     ## 5 23455199693 Greifswald - W1… <NA>        unca…        NA    30 runn… generic  
     ## 6 23419618478 Greifswald - W1… <NA>        unca…        NA     9 runn… generic  
     ## 7 23666794029 Greifswald - W4… <NA>        unca…        NA     7 runn… generic  
+    ## 8 23704999674 Greifswald - W4… <NA>        unca…        NA    10 runn… generic  
     ## # ℹ 41 more variables: device_serial_number <int>, self_eval_feel <chr>,
     ## #   self_eval_effort <chr>, training_load <dbl>, training_effect <dbl>,
     ## #   anaerobic_training_effect <dbl>, start_time <chr>, stop_time <chr>,
@@ -303,7 +304,7 @@ my_runs
     ## #   avg_cadence <int>, max_cadence <int>, avg_speed <dbl>, max_speed <dbl>,
     ## #   ascent <dbl>, descent <dbl>, max_temperature <dbl>, …
 
-With that, I only collected 7 rows out of the 200+ activities the table
+With that, I only collected 8 rows out of the 200+ activities the table
 contains. This was super fast, and will be easily updated as the
 database grows alongside my training programme.
 
