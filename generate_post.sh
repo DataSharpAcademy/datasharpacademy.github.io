@@ -18,13 +18,15 @@ Selection:
 
 Options:
   --rebuild  Rebuild the full selection without the bulk confirmation
-  --shutup   Suppress informational output (confirmation queries remain)
+  --yes      Answer yes to all confirmation prompts
+  --shutup   Suppress informational output (prompts remain unless --yes is used)
   -h, --help Show this help
 
 Examples:
   ./generate_post.sh running 4
   ./generate_post.sh running
   ./generate_post.sh 4 --rebuild
+  ./generate_post.sh running --yes
   ./generate_post.sh --rebuild --shutup
 
 The date, status, and sitemap are read from each RMD's YAML front matter.
@@ -40,6 +42,10 @@ say() {
 confirm() {
   local prompt=$1
   local response
+
+  if [[ "$assume_yes" == true ]]; then
+    return 0
+  fi
 
   printf '%s [y/n] ' "$prompt"
   if ! IFS= read -r response; then
@@ -89,6 +95,7 @@ front_matter_value() {
 
 positionals=()
 rebuild=false
+assume_yes=false
 shutup=false
 
 for argument in "$@"; do
@@ -99,6 +106,9 @@ for argument in "$@"; do
       ;;
     --rebuild)
       rebuild=true
+      ;;
+    --yes)
+      assume_yes=true
       ;;
     --shutup)
       shutup=true
