@@ -73,28 +73,34 @@ source(
 </div>
 
 
-After weeks of teasing, this is finally it: we are about to start analysing the data.
+After weeks of teasing, this is finally it: we are about to start analysing some of the data.
 
-And no, I did not add five preliminary chapters just to keep you waiting. Real data projects often take time before the first graph appears. We needed to find the data, understand how they were stored, bring them into R, and build a reproducible workspace.
+And no, I did not add five preliminary chapters just to keep you waiting. Real data projects often take time before the first graph appears. We needed to find the data, understand how they were stored, bring them into R, and build a reproducible workspace. We now have solid foundations.
 
-We now have solid foundations. And hundreds of variables waiting for us.
+Let's go!
 
-That sounds like plenty. But having lots of variables does not mean having the right one. The database contains what Garmin was designed to record, not necessarily what I need to answer my question.
+
 
 
 # A question I wasn't planning to ask
 
+As I wrote in the preamble to this notebook, data analysis is rarely a straight line. Every anaysis takes some detours. This chapter documents one of these.
+
 I originally expected this first exploration to be about progress. Am I running faster? Is my fitness improving?
 
-But another question has become more pressing. Over the past week, I have felt increasingly tired. I am still reaching the targets set by the programme, but my energy on the days that follow sessions is lower than I would expect. And yet, I don't think my pace targets have increased significantly.
+By then, another question had become more pressing. Over the previous week, I had felt increasingly tired. I was still reaching the targets set by the programme, but my energy on the days following each session was lower than expected. And yet, I did not think my pace targets had increased significantly.
 
-So my first question for the data is not whether I am becoming faster. It is: **Have I been doing too much, too quickly?**
+So my first question for the data became: **After my long break from running, had I been doing too much, too quickly?**
 
-> Sleep, nutrition, and work have been fairly constant. I therefore start by looking at the training, while keeping in mind that it may not be the only explanation.
+> Sleep, nutrition, and work had been fairly constant. I therefore started by looking at the training, while keeping in mind that it might not be the only explanation.
 
-The question is simple enough. Translating it into data is harder. Which variable represents *doing too much*? Pace? Effort? Distance? Something else?
+The question was simple. But translating it into data was harder. Which variable represents *doing too much*? Pace? Effort? Distance? Something else?
 
-This is where exploratory data analysis ("EDA") begins. Rather than plotting every available column and hoping for a pattern, we need to find a variable that actually addresses the question.
+Dozens of variables were waiting in the `activities` table alone, which sounded like plenty. But having lots of variables does not mean having the right one. The database contains what Garmin was designed to record, not necessarily what I needed to answer my question.
+
+This is where exploratory data analysis ("EDA") begins. Rather than plotting every available column and hoping for a pattern, we need to find -or engineer- a variable that actually addresses the question.
+
+Answering it required more than a surface understanding of both the data and the problem.
 
 
 # A reproducible start
@@ -168,16 +174,15 @@ runs <-
         collect()
 ```
 
-At the time of writing, I have completed `r nrow(runs)` runs. Each data point has been hard-earned, but these observations are still very few. I won't be proving anything today. Fortunately, I only need enough information to make a small, reversible decision about next week's training.
+At the time of writing, I have completed `r nrow(runs)` runs. Each data point has been hard-earned, but these observations are still very few. It is too early, for instance, to make credible performance predictions. This investigation only asked whether _something obvious had changed in recent weeks_.
 
-
-# Hundreds of variables, but not the right ones
+# Dozens of variables, but not the right ones
 
 Garmin knows when I ran, how far I went, how fast my heart was beating, and much more. But it does not know how those runs fit into my training programme.
 
 This context matters. My programme contains two sessions per week: usually one longer run and one more intense session, such as tempo intervals or hill repeats. Some weeks are deliberately lighter to favour recovery ("deload" weeks).
 
-I therefore need to create a few variables before the data can begin to answer my question:
+Before analysing them, I needed to create a few variables that related the runs to my question:
 
 - `date` extracts the calendar date from Garmin's timestamp;
 - `training_week` places each run within the programme;
@@ -198,7 +203,7 @@ runs <-
                 str_detect(name, "Hills")      ~ "Hills",
                 str_detect(name, "Tempo")      ~ "Tempo",
                 str_detect(name, "Long Run")   ~ "Long run",
-                TRUE                           ~ "Recovery"
+                TRUE                           ~ "Short & Slow"
             ),
             deload = if_else(
                 training_week %in% c(4, 7),
@@ -221,16 +226,16 @@ runs |>
 
 This is `feature engineering` in its simplest form: translating my knowledge of the project into variables the computer can use. Some variables add context that Garmin does not have, while others transform existing measurements into more useful units, such as pace instead of speed.
 
-Feature engineering is not merely cleaning before the analysis begins. It determines which questions the data can answer.
+Feature engineering can be part of preparing data for analysis. More importantly here, it determines which questions the data can answer.
 
-> Do not let the available columns dictate your questions. If the variable you need is missing, build it.
+> Do not let the available columns dictate your questions. If the variable you need is missing, take time to build it.
 
 
 # First candidate: average pace
 
-My first candidate is average pace. If the recent sessions were too demanding, perhaps I had simply been running too fast for my current level.
+My first candidate was average pace. If the recent sessions had been too demanding, perhaps I had simply been running too fast for my current level.
 
-```{r average-pace-over-time, fig.cap="Average pace across the first weeks of the programme. Lower values represent faster runs."}
+```{r average-pace-over-time, fig.cap="Average pace across the first weeks of the programme. Lower values (top) represent faster runs."}
 runs |>
     ggplot() +
         aes(
@@ -248,18 +253,18 @@ runs |>
 
 Pace improved quickly during the opening weeks before settling somewhere around 5'30 to 5'50 per kilometre.
 
-Four apparently slow runs stand out. Two were hill sessions, which included hard uphill repetitions followed by walking recovery. Their average pace makes them look easy when they were anything but. The other two are runs from recovery weeks, which are meant to be slow.
+Five apparently slow runs stand out. Two were hill sessions, which included hard uphill repetitions followed by walking recovery. Their average pace makes them look easy when they were anything but. The other three came from recovery weeks and were meant to be slow. In particular, the final two were part of my response to the accumulated fatigue: an easy week with two short, slow runs.
 
-> An unusual observation is not necessarily an error. Understand where it comes from before deciding what to do with it.
+> An unusual observation is not necessarily an error. An outlier may be a data problem, or it may be a genuine observation. Understand where it comes from before deciding what to do with it.
 
-This is useful, although it is not the answer I was looking for. There is no recent increase in average pace. If anything, I have slowed down slightly. That makes average pace a poor explanation for the fatigue.
+This was useful, although it was not the answer I was looking for. Once I set the deload runs aside, there was no recent increase in average pace. If anything, I had slowed down slightly. Average pace was therefore a poor explanation for my fatigue.
 
-But average pace is also an imperfect representation of a run. The same average can describe a steady effort, intervals, or short sprints separated by walking. Before discarding pace entirely, I want to see what the average is hiding.
+But average pace is also an imperfect representation of a run. The same average can describe a steady effort, intervals, or short sprints separated by walking. Before discarding pace entirely, I wanted to see what the average was hiding.
 
 
 ## Is the average the right summary?
 
-So far, I have used the `activities` table, which contains one summary for each recorded activity. Another table, `activity_records`, contains the measurements used to create those summaries.
+Up to that point, I had used the `activities` table, which contains one summary for each recorded activity. Another table, `activity_records`, contains the measurements used to create those summaries.
 
 This table cannot be filtered by `sport == "running"` as before because that column is not included there, but `activity_id` connects it to my runs. An `inner_join()` retains only the records belonging to both tables.
 
@@ -276,7 +281,7 @@ runs_detailed <-
         arrange(date, record)
 ```
 
-Each row now represents one measurement recorded during a run. I removed records where speed equals zero because pace is undefined when there is no movement.
+Each row now represents one measurement recorded during a run of my programme. I removed records where speed equals zero because pace is undefined when there is no movement.
 
 
 
@@ -311,14 +316,14 @@ Each violin represents the distribution of pace measurements within one run: the
 
 Now the structure of each run becomes visible. Long runs have a fairly narrow distribution, while hill sessions contain several distinct paces: short uphill efforts, recovery running, and some walking.
 
-The graph explains why average pace can misrepresent some sessions. But it does not explain why I am tired. Lesson learned: I do not need _more data_; I need a _better variable_ for the question.
+The graph explains why average pace can misrepresent some sessions. But it did not explain why I had been feeling more tired. This detour gave me a useful lesson: I did not need _more data_; I needed a _better variable_ for the question.
 
 
 # Second candidate: Garmin's effort metrics
 
-If pace cannot represent how demanding these sessions were, perhaps Garmin's ready-made effort metrics can.
+If pace could not represent how demanding these sessions were, perhaps Garmin's ready-made effort metrics could.
 
-These are engineered variables too. Garmin combines raw measurements into convenient scores according to its own definition of effort. That can be useful, but a variable does not become relevant to my question simply because it is already available.
+These are engineered variables too. Garmin combines raw measurements into convenient scores according to its own definition of effort. That can be useful, but a variable does not necessarily become relevant to my question simply because it is already available.
 
 `training_load` estimates the physiological load created by each activity. Here, the slow hill sessions no longer look easy. They sit comfortably among the more demanding runs, while the deload sessions are at the bottom.
 
@@ -362,14 +367,16 @@ runs |>
         )
 ```
 
-These variables are closer to the idea of effort, but there is no clear change. Week 3 was demanding too, and I handled it without unusual fatigue.
+These variables were closer to the idea of effort, but neither showed a clear change. Week 3 had been demanding too, and I had handled it without unusual fatigue.
 
-Fatigue, however, can accumulate across several sessions. Perhaps I do not need another variable from the database. Perhaps I need to engineer one at the level of the training week.
+This second route did not provide an answer either. It did, however, expose another problem: both metrics still described one run at a time.
+
+Fatigue, however, can accumulate across several sessions. Perhaps I didn't need another variable from the database. Perhaps I needed to engineer one at the level of the training week.
 
 
-# Engineering the variable I need
+# Engineering the variable I needed
 
-To represent accumulated training, I summarise the runs by week. This changes the unit of observation: instead of one row per run, I want one row per training week.
+To represent accumulated training, I summarised the runs by week. This changed the unit of observation: instead of one row per run, I now had one row per training week.
 
 ```{r summarise-training-weeks}
 weekly_runs <-
@@ -420,34 +427,36 @@ weekly_runs |>
         )
 ```
 
-Now we are onto something.
+This was the first pattern that addressed my question directly.
 
-We already saw that the pace had not changed much, but the amount of running at that pace had. One session was an 11-kilometre long run; the other was a demanding hill workout covering more than 9 kilometres, including twelve one-minute uphill efforts. Individually, neither looked absurd. Together, they formed the largest week of the programme so far.
+Pace had not changed much, but the amount of running at that pace had. Week 6 had been hard. One session was an 11-kilometre long run; the other was a demanding hill workout covering more than 9 kilometres, including twelve one-minute high-intensity uphill efforts. Individually, neither looked absurd. Together, they formed the largest week of the programme so far.
 
 Week 6 was my first week above 20 kilometres. That is `r round(weekly_runs$total_distance[weekly_runs$training_week == 6] / weekly_runs$total_distance[weekly_runs$training_week == 5] * 100 - 100)`% more than week 5, immediately after a `r round(weekly_runs$total_distance[weekly_runs$training_week == 5] / weekly_runs$total_distance[weekly_runs$training_week == 4] * 100 - 100)`% increase following the deload week.
 
-Weekly distance is the variable I had been looking for. It does not measure fatigue directly, but it captures the recent increase in training volume far better than any individual run could.
+Weekly distance was the variable I had been looking for. It did not measure fatigue directly, but it captured the recent increase in training volume far better than any individual run could.
 
-That gives me a plausible explanation for the fatigue I experienced over the following days: my recent training volume may have increased faster than I could recover from it.
+That gave me a plausible explanation for the fatigue I experienced over the following days: my recent training volume may have increased faster than I could recover from it.
 
 
 # Enough information for a small decision
 
-`r nrow(runs)` runs cannot establish that the increase in distance *caused* my fatigue. But that is not quite the decision I need to make.
+`r nrow(runs)` runs were not enough to establish that the increase in distance *caused* my fatigue. But that was not quite the decision I needed to make.
 
-I feel tired, and the data show a sharp increase in running volume. Reducing that volume for a week is a small, reversible response. I can then see whether I feel better.
+I felt tired, and the data showed a sharp increase in running volume. That was enough evidence for the decision at hand. I asked my running app to reduce the weekly mileage and turned week 7 into a recovery week. Regular training would resume in week 8.
 
-That is enough evidence for the decision at hand. I asked my running app to reduce the mileage and turned week 7 into a recovery week. Regular training will resume in week 8, hopefully with fresher legs.
+I am writing these lines at the dawn of week 8. I will soon find out whether I can restart the programme as originally intended.
 
 
-
-# What's next
+# Take-home message
 
 The Garmin database contained hundreds of variables, yet the most useful one was not among them. I had to combine distance, dates, and my knowledge of the programme to create weekly running volume.
 
 That is often what feature engineering is for: building the variables that connect the available data to the question we actually want to answer.
 
 The running data are only an example. Every dataset reflects the system that collected it, while our questions come from the problem we are trying to solve. The two will not always align. Good EDA helps us recognise that gap and decide what information is missing.
+
+
+# What's next
 
 This exploration also exposed the next problem. Average pace cannot meaningfully compare a long run, a tempo session, and hill repeats. All of them also include a warm-up and cool-down. To study progress, I will need to engineer another variable that better captures the training part of each run.
 
