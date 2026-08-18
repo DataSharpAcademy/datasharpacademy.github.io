@@ -343,7 +343,7 @@ updated_data <-
 # a modified version later.
 write_csv(
     updated_data,
-    file_updated_data # The variable defined at the beginning
+    file_updated_data # The path defined at the beginning
 )
 
 
@@ -355,7 +355,7 @@ scatterplot <-
 # Save your outputs as soon as they are generated to avoid saving
 # a modified version later.
 ggsave(
-    filename = file_x_against_y, # The variable defined at the beginning
+    filename = file_x_against_y, # The path defined at the beginning
     plot = scatterplot
 )
 
