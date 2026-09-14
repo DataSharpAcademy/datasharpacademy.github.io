@@ -73,6 +73,39 @@ strong, b { font-weight: bold; }
 img { max-width: 100%; }
 p > img { display: block; margin: 0 auto; text-align: center; }
 
+// Reusable styles for data tables, including HTML output from knitr::kable().
+.table-scroll {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+
+  &:focus-visible { outline: 2px solid #4d6d94; }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 3px solid #4d6d94;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+
+  caption {
+    padding: 0 0 0.7rem;
+    text-align: left;
+    font-weight: 600;
+    color: #24432f;
+  }
+
+  th, td {
+    padding: 0.8rem 0.7rem;
+    border-bottom: 1px solid #d8d2c6;
+    vertical-align: middle;
+  }
+
+  th { background: #edf2f5; font-weight: 600; }
+  td { white-space: nowrap; }
+  tbody tr:nth-child(even) { background: #fafaf7; }
+}
+
 blockquote {
   margin: 2em 0;
   padding: 0.5em 1.4em;
