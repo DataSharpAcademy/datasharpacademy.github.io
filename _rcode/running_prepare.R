@@ -40,7 +40,7 @@ file_labelled_laps <- path(dir_out_datasets, "running-laps-labelled.rds")
 # ---- Define the programme and classification rule ----
 # No publication cutoff: include every available run since the programme began.
 programme_start <- "2026-06-29"
-analysis_end    <- "2026-09-15"
+analysis_end    <- "2026-09-12"
 deload_weeks <- c(4, 7, 9)
 
 # Activity-level exceptions from chapter 7; update as new easy runs are reviewed.
