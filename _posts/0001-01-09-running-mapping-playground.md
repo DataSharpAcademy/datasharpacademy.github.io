@@ -33,11 +33,12 @@ go through the training itself to see the results.
 So what do I do in the meantime? My all-time favourite procrastination
 exercise: mapping data. Not the first I’m going down this road.
 
-I really love making maps. A few choices about colour, scale, and what
-to count can make the same routes tell quite different stories.
+I really love making maps. Finding the right colour palette, the right
+scale and location for labels, or the right data to map your idea.
 
-Here are the three views we will make: a density plot of GPS positions,
-towers of repeat visits, and a run placed in its landscape.
+Here are the three views I did for these running data: a density plot of
+GPS positions, towers of repeat visits, and a run placed in its
+landscape using satellite date.
 
 <figure aria-label="Three views of my running routes">
 
@@ -71,20 +72,27 @@ follow below.
 
 </figure>
 
+The code examples are, unfortunately, on the long side but good visuals
+deserve that much. I never knew how to accept pre-made figure templates.
+I always have to fine tune everything by hand. So be it.
+
 # Getting the coordinates
 
 To make maps, one needs spatial data. The coordinates live in
 `activity_records`, inside `garmin_activities.db`. We keep running
-activities from **29 June 2026** onwards. Warm-ups and cool-downs belong
-here too: they are places I ran.
+activities from **29 June 2026** onwards. Warm-ups and cool-downs are
+included in this chapter: they are places I ran.
 
-One run comes from a trip to South Africa to give an R workshop. A map
-covering both countries would shrink the routes to dots, so that run
-will get its own map at the end.
+One of the runs of this period comes from a trip to South Africa to give
+an R workshop. A map covering South Africa and Germany would shrink the
+routes to dots, so that run will get its own map at the end.
 
-`position_long` and `position_lat` locate each point in decimal degrees.
-`activity_id` tells us which run it belongs to; `record` and `timestamp`
-let us follow the points in order.
+Here are the data we’ll use:
+
+- `position_long` and `position_lat` locate each point in decimal
+  degrees.
+- `activity_id` tells us which run it belongs to, and `record` gives the
+  order of points within each run.
 
 ``` r
 setwd(
@@ -118,7 +126,7 @@ running_activities <- tbl(con, "activities") |>
 gps <- tbl(con, "activity_records") |>
     semi_join(running_activities, by = "activity_id") |>
     select(
-        activity_id, record, timestamp,
+        activity_id, record,
         position_long, position_lat
     ) |>
     collect()
@@ -126,39 +134,28 @@ gps <- tbl(con, "activity_records") |>
 dbDisconnect(con)
 ```
 
-> As opposed to previous chapters, I immediately disconnect from the
-> database because I already know that I won’t need to extract new data
-> after this point. I disconnect now, so I’m certain I won’t forgt
-> later.
+After `collect()` brings the selected records into R, I close the
+read-only database connection. The maps can now be made from the data
+already in memory.
 
-The checks below flag missing or impossible coordinates, plus the
-placeholder `(0, 0)`. We keep those rows for now: a missing position
-should break a route, rather than force connections between the points
-on either side. The two run subsets are `de_gps` for Germany and
-`sa_gps` for South Africa.
+Two records have missing coordinates at the start of an activity. I drop
+rows missing either coordinate, then split the runs into Germany
+(`de_gps`) and South Africa (`sa_gps`).
 
 ``` r
 gps <- gps |>
-    mutate(
-        timestamp = as.POSIXct(timestamp, tz = "UTC"),
-        valid_position =
-            is.finite(position_long) &
-            is.finite(position_lat) &
-            between(position_long, -180, 180) &
-            between(position_lat, -90, 90) &
-            !(position_long == 0 & position_lat == 0)
-    ) |>
+    tidyr::drop_na(position_long, position_lat) |>
     arrange(activity_id, record)
 
-# Split by activity, retaining the complete South Africa run for later.
+# Keep the South African run separate for its own map.
 sa_gps <- gps |> filter(activity_id == south_africa_activity_id)
 de_gps <- gps |> filter(activity_id != south_africa_activity_id)
 ```
 
 # Choosing the neighbourhood
 
-The main maps cover my routes around Greifswald, Germany, well within
-ten kilometres of the median recorded position.
+The main maps cover my routes around Greifswald, Germany. I use the
+median recorded position as the map centre.
 
 Longitude and latitude need to be converted into distances and projected
 onto 30-metre squares. A local **map projection** converts those angles
@@ -173,10 +170,9 @@ applying `floor()` then assigns each point to a grid square.
 
 ``` r
 map_centre <- c(
-    lon = median(de_gps$position_long[de_gps$valid_position]),
-    lat = median(de_gps$position_lat[de_gps$valid_position])
+    lon = median(de_gps$position_long),
+    lat = median(de_gps$position_lat)
 )
-map_radius_m <- 10000
 cell_size_m <- 30
 bandwidth_m <- 10
 
@@ -185,23 +181,19 @@ local_crs <- sprintf(
     map_centre[["lon"]], map_centre[["lat"]]
 )
 xy <- de_gps |>
-    filter(valid_position) |>
     st_as_sf(coords = c("position_long", "position_lat"), crs = 4326) |>
     st_transform(local_crs) |>
     st_coordinates()
 
-# Keep invalid and out-of-area records as breaks in the visit sequence.
-de_gps$x_m <- de_gps$y_m <- NA_real_
-de_gps$x_m[de_gps$valid_position] <- xy[, "X"]
-de_gps$y_m[de_gps$valid_position] <- xy[, "Y"]
+# Add the projected coordinates so we can work in metres.
 de_gps <- de_gps |>
     mutate(
-        in_map = coalesce(sqrt(x_m^2 + y_m^2) <= map_radius_m, FALSE),
-        grid_x = if_else(in_map, as.integer(floor(x_m / cell_size_m)), NA_integer_),
-        grid_y = if_else(in_map, as.integer(floor(y_m / cell_size_m)), NA_integer_)
+        x_m = xy[, "X"],
+        y_m = xy[, "Y"],
+        grid_x = as.integer(floor(x_m / cell_size_m)),
+        grid_y = as.integer(floor(y_m / cell_size_m))
     )
 map_points <- de_gps |>
-    filter(in_map) |>
     mutate(x_km = x_m / 1000, y_km = y_m / 1000)
 
 # Leave a margin around the recorded routes.
@@ -211,9 +203,7 @@ map_theme <- theme_running() +
     theme(legend.title = element_text(), panel.grid.minor = element_blank())
 ```
 
-This view contains 12647 GPS records from 19 runs. It leaves out 0 valid
-records outside the chosen area and 2 records without usable
-coordinates.
+This view contains 16206 GPS records from 24 runs.
 
 # Where I spent the most time
 
@@ -224,9 +214,11 @@ Imagine placing a small glow around each GPS point. Where many glows
 overlap, the map becomes brighter. The **bandwidth** controls how widely
 each point spreads: ten metres keeps these routes sharply defined.
 
-The inferno palette runs from dark to yellow. A logarithmic colour scale
-reveals routes I rarely used alongside the brightest spot: each legend
-step is a tenfold increase. The maximum density is scaled to one.
+The inferno palette runs from dark to bright yellow. So I choose to map
+my data density to this scheme, scaling data from 0 (black; never been
+there) to 1 (yellow; highest density). However, I first log-transformed
+the data to ensure the road I used only once or twice do net get lost in
+the background.
 
 ``` r
 density_floor <- 1e-3
@@ -271,8 +263,8 @@ of sweat lost in each location 🥵
 
 Now, I want to plot something slightly different: how many times I used
 each segment. So I want to exclude the pace element – if I walk on that
-section, I’ll spend more time there, and it will become brighter on the
-plot above.
+section, I’ll spend more time there, automatically increasing the
+brightness on the plot above.
 
 ## Counting everytime I entered a location
 
@@ -281,29 +273,21 @@ resting in one place.
 
 I divide the whole area into 30-by-30-metre squares and count entries.
 The sequence A, A, B, B, A gives two visits to cell A and one to B.
-Staying inside a cell does not keep adding visits, and every new
-activity starts its own sequence.
+Staying inside a cell (A -\> A) does not keep adding visits, and every
+new activity starts its own sequence.
 
-A missing position, a trip outside the map, or a recording gap longer
-than 60 seconds also starts a new observed visit. Since we cannot
-reconstruct an unrecorded path: cells crossed between GPS samples are
-not filled in. This can happen when I stop my watch in one location and
-restart at a different place.
+The largest entry counts cluster near the origin, around that hill. This
+time, the numbers describe how many times I returned to those squares,
+rather than how many GPS points accumulated there.
 
 ``` r
-max_gap_seconds <- 60
-
 visits <-
     de_gps |>
         group_by(activity_id) |>
         arrange(record, .by_group = TRUE) |>
         mutate(
-            gap_seconds = as.numeric(difftime(timestamp, lag(timestamp), units = "secs")),
-            new_visit = in_map & (
-                row_number() == 1L |
-                coalesce(grid_x != lag(grid_x) | grid_y != lag(grid_y), TRUE) |
-                is.na(gap_seconds) | gap_seconds > max_gap_seconds | gap_seconds < 0
-            )
+            new_visit = row_number() == 1L |
+                grid_x != lag(grid_x) | grid_y != lag(grid_y)
         ) |>
         ungroup() |>
         filter(new_visit)
@@ -314,30 +298,26 @@ cell_counts <- visits |>
 cell_counts |> arrange(desc(entries))
 ```
 
-    ## # A tibble: 822 × 3
+    ## # A tibble: 848 × 3
     ##    grid_x grid_y entries
     ##     <int>  <int>   <int>
-    ##  1     -1     -2      89
-    ##  2      1     -1      85
-    ##  3      0     -2      66
-    ##  4      0     -1      60
-    ##  5      2     -1      57
-    ##  6     -2     -3      56
-    ##  7      0     -3      55
-    ##  8     -1     -3      54
-    ##  9     -2     -2      50
-    ## 10      1     -4      47
-    ## # ℹ 812 more rows
+    ##  1     -1     -3     121
+    ##  2      0     -2     116
+    ##  3      1     -2     113
+    ##  4     -1     -2     112
+    ##  5     -2     -3      74
+    ##  6      0     -4      73
+    ##  7      1     -4      71
+    ##  8      2     -1      71
+    ##  9     -2     -4      60
+    ## 10      1     -5      52
+    ## # ℹ 838 more rows
 
-The largest entry counts cluster near the origin, around the hill. This
-time, the numbers describe returns to those squares, rather than how
-many GPS points accumulated there. Choosing the median position as the
-centre does not guarantee that the busiest cells will be nearby.
-
-The beginning and end of a “hill loop” are the same, and based on the
-algorithms, these will corresond to two entries. So I’d estimate that I
-must have ran up that hill about 40 times since the beginning of that
-program across 4-5 sessions.
+My most visited segment tallies ~120 visits. This corresponds to the
+beginning and end of the “hill loop” I keep doing over and over. So Each
+loop brings two entries. So I can roughly estimate that I have ran up
+that hill about ~60 times since the beginning of that program across 5-6
+sessions.
 
 ## Gridding the data
 
@@ -420,15 +400,15 @@ the center hosting the highest density and then decreasing along the
 main roads.
 
 PS: I can’t explore in too many directions because I live on a
-peninsula. Lots of Baltic Sea around me.
+peninsula. Lots of Baltic Sea in the top right triangle.
 
 # A detour to South Africa
 
 One of the runs was done in South Africa and does not really belong to
 his program. It was a chance to shake off some of the travelling aches
-that one gets staying 11+ hours on a plane. I would have liked to repeat
-the bush run experience a few more times, but reports of fresh leopard
-prints on the roads we had used cooled our enthusiasm.
+that one gets staying 11+ hours on a plane. And while I would have liked
+to repeat such a bush run experience a few more times, daily reports of
+fresh leopard prints on the roads we had used cooled our enthusiasm.
 
 So the experience was not repeated 😅
 
@@ -447,7 +427,7 @@ install.packages(c("maptiles", "terra", "rnaturalearth", "rnaturalearthdata"))
 
 All layers need the same coordinate system to line up. These tiles use
 **Web Mercator (EPSG:3857)**, so the GPS points and country outline are
-transformed to match. Gaps still break the route into separate lines.
+transformed to match.
 
 A **bounding box** gives the left, right, bottom, and top limits of a
 map. The overview covers South Africa. For the close-up, the route’s
@@ -457,14 +437,6 @@ bounding box becomes a square with a little space around it.
 sa_route <-
     sa_gps |>
         arrange(record) |>
-        mutate(
-            gap_seconds = as.numeric(difftime(timestamp, lag(timestamp), units = "secs")),
-            segment = cumsum(
-                !valid_position | !lag(valid_position, default = FALSE) |
-                is.na(gap_seconds) | gap_seconds > max_gap_seconds | gap_seconds < 0
-            )
-        ) |>
-        filter(valid_position) |>
         st_as_sf(coords = c("position_long", "position_lat"), crs = 4326) |>
         st_transform(3857)
 
@@ -550,12 +522,8 @@ text(run_centre[["x"]], run_centre[["y"]], labels = "Kruger",
 mtext("A. South Africa", cex=2, side = 3, line = 0.5, font = 2)
 
 terra::plotRGB(closeup_tiles, axes = FALSE, mar = c(0, 0, 2, 0))
-for (rows in split(seq_len(nrow(sa_xy)), sa_route$segment)) {
-    if (length(rows) >= 2) {
-        lines(sa_xy[rows, , drop = FALSE], col = "#202020", lwd = 4)
-        lines(sa_xy[rows, , drop = FALSE], col = "#FFCC33", lwd = 2)
-    }
-}
+lines(sa_xy, col = "#202020", lwd = 4)
+lines(sa_xy, col = "#FFCC33", lwd = 2)
 points(sa_xy[c(1, nrow(sa_xy)), , drop = FALSE],
        pch = c(21, 24), bg = "white", col = "#202020", cex = 1.3)
 mtext("B. Kruger run · August 2026", cex=2, side = 3, line = 0.5, font = 2)
