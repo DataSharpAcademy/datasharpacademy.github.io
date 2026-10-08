@@ -46,7 +46,7 @@ knitr::opts_chunk$set(
     fig.height = 6,
     dpi = 150
 )
-source(file.path(knitr::opts_knit$get("base.dir"), "_rcode", "running_design.R"))
+source(fs::path(knitr::opts_knit$get("base.dir"), "_postcode", "running", "running_design.R"))
 ```
 
 Now that I’ve made a long-term prediction for my running time, I need to
@@ -61,11 +61,11 @@ Here are the three views I did for these running data: a density plot of GPS pos
 
 
 ```{r maps-preview, echo=FALSE, results='asis'}
-preview_paths <- file.path(
+preview_paths <- fs::path(
     "images", "notebooks", "running",
     c("maps-density-1.png", "maps-entry-towers-1.png", "maps-south-africa-1.png")
 )
-preview_files <- file.path(knitr::opts_knit$get("base.dir"), preview_paths)
+preview_files <- fs::path(knitr::opts_knit$get("base.dir"), preview_paths)
 
 # Reuse existing figures; omit the preview until all three files exist.
 if (all(file.exists(preview_files))) {
@@ -410,7 +410,7 @@ I used the `maptiles` package to download the data and the `zoom` parameter can 
 ```{r maps-south-africa-imagery}
 imagery_provider <- "Esri.WorldImagery"
 # Reuse downloaded tiles when knitting again in the same R session.
-imagery_cache <- getOption("running.imagery_cache", file.path(tempdir(), "running-tiles"))
+imagery_cache <- getOption("running.imagery_cache", fs::path(tempdir(), "running-tiles"))
 dir_create(imagery_cache)
 
 overview_tiles <- maptiles::get_tiles(

@@ -485,7 +485,7 @@ transformed coordinates.
 ``` r
 imagery_provider <- "Esri.WorldImagery"
 # Reuse downloaded tiles when knitting again in the same R session.
-imagery_cache <- getOption("running.imagery_cache", file.path(tempdir(), "running-tiles"))
+imagery_cache <- getOption("running.imagery_cache", fs::path(tempdir(), "running-tiles"))
 dir_create(imagery_cache)
 
 overview_tiles <- maptiles::get_tiles(

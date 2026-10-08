@@ -53,10 +53,10 @@ knitr::opts_knit$set(
 )
 
 source(
-  file.path(
+  fs::path(
     knitr::opts_knit$get("base.dir"),
-    "_rcode",
-    "running_design.R"
+    "_postcode",
+    "running", "running_design.R"
   )
 )
 ```
@@ -114,11 +114,12 @@ Three data frames carry the earlier work into this chapter:
 
 The shared `activity_id` connects these tables. The lap timestamps let me identify which detailed measurements belong to the workout.
 
-```{r collect-running-laps-backend, echo=FALSE, eval=TRUE}
-source(file.path(
+```{r collect-running-laps-backend, include=FALSE, eval=TRUE}
+options(running.make_plots = FALSE)
+invisible(source(fs::path(
     knitr::opts_knit$get("base.dir"),
-    "_rcode", "running_prepare.R"
-))
+    "_postcode", "running", "08-five-miles-i-never-ran.R"
+)))
 ```
 
 # Define what an observation represents

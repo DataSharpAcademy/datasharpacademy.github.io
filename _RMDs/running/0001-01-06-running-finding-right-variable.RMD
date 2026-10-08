@@ -52,10 +52,10 @@ knitr::opts_knit$set(
 )
 
 source(
-  file.path(
+  fs::path(
     knitr::opts_knit$get("base.dir"),
-    "_rcode",
-    "running_design.R"
+    "_postcode",
+    "running", "running_design.R"
   )
 )
 ```
@@ -169,7 +169,7 @@ runs <-
         filter(
             sport == "running",
             start_time >= "2026-06-29",
-            start_time < "2026-08-18"
+            start_time < "2026-08-17"
         ) |>
         collect()
 ```
