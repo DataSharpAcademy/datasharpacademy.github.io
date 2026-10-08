@@ -75,6 +75,25 @@
 
                 {{ content }}
 
+                {% assign notebook_code_slug = page.notebook %}
+                {% if page.collection == "notebooks" %}
+                    {% assign notebook_code_slug = page.slug %}
+                {% endif %}
+
+                {% if notebook_code_slug %}
+                {% assign notebook_code_path = '/_postcode/' | append: notebook_code_slug | append: '/' %}
+                {% assign notebook_code_files = site.static_files
+                    | where_exp: "file", "file.path contains notebook_code_path" %}
+
+                {% if notebook_code_files.size > 0 %}
+                <footer class="notebook-code-footer">
+                    <p>All the code associated with this notebook is available in
+                        <a href="{{ site.notebook_code_url | append: '/' | append: notebook_code_slug | escape }}" target="_blank" rel="noopener noreferrer">the notebook's code folder</a>.
+                    </p>
+                </footer>
+                {% endif %}
+                {% endif %}
+
                 {% if page.notebook %}
 
                 {% assign notebook_posts = site.posts
@@ -105,18 +124,6 @@
                     {% endif %}
 
                 {% endfor %}
-
-                {% assign notebook_code_path = '/_postcode/' | append: page.notebook | append: '/' %}
-                {% assign notebook_code_files = site.static_files
-                    | where_exp: "file", "file.path contains notebook_code_path" %}
-
-                {% if page.collection == "posts" and notebook_code_files.size > 0 %}
-                <footer class="notebook-code-footer">
-                    <p>All the code associated with this notebook is available in
-                        <a href="{{ site.notebook_code_url | append: '/' | append: page.notebook | escape }}" target="_blank" rel="noopener noreferrer">the notebook's code folder</a>.
-                    </p>
-                </footer>
-                {% endif %}
 
                 <nav class="chapter-navigation">
 

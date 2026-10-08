@@ -275,6 +275,33 @@ code.highlighter-rouge {
 .highlight pre.highlight { margin: 0; padding: 0; overflow-x: auto; background: transparent; border: 0; border-radius: 0; }
 .highlight pre.highlight code { background: none; color: #f2f2f2; font-family: "SF Mono", Menlo, Consolas, Monaco, monospace; font-size: 15px; line-height: 1.7; }
 
+.notebook-code-footer {
+  margin-top: 48px;
+  padding: 14px 18px;
+  border: 1px solid #4a4a4a;
+  border-radius: 8px;
+  background: #4a4a4a;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.notebook-code-footer p { margin: 0; }
+
+.notebook-code-footer a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.notebook-code-footer a:hover { color: #d9d9d9; }
+
+.notebook-code-footer a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .chapter-navigation {
   display: flex;
   width: 100%;
