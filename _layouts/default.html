@@ -51,6 +51,7 @@
 
                             <div class="dropdown-content">
                                 <a href="/notebooks/running/">Running</a>
+                                <a href="{{ site.baseurl }}/notebooks/loose-notes/">Loose Notes from the Field</a>
                                 <a href=""><em>More soon</em></a>
                             </div>
                         </div>
@@ -104,6 +105,18 @@
                     {% endif %}
 
                 {% endfor %}
+
+                {% assign notebook_code_path = '/_postcode/' | append: page.notebook | append: '/' %}
+                {% assign notebook_code_files = site.static_files
+                    | where_exp: "file", "file.path contains notebook_code_path" %}
+
+                {% if page.collection == "posts" and notebook_code_files.size > 0 %}
+                <footer class="notebook-code-footer">
+                    <p>All the code associated with this notebook is available in
+                        <a href="{{ site.notebook_code_url | append: '/' | append: page.notebook | escape }}" target="_blank" rel="noopener noreferrer">the notebook's code folder</a>.
+                    </p>
+                </footer>
+                {% endif %}
 
                 <nav class="chapter-navigation">
 
