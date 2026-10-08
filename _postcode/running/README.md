@@ -8,15 +8,16 @@ listed packages, and run it from beginning to end. Preparation and plotting
 helpers are included; no other script, R Markdown file, or saved R session is
 needed.
 
-| Chapter | Script | Results |
-| --- | --- | --- |
-| 2 · GitHub: Terra Incognita | `02-github-terra-incognita.sh` | A `uv` environment, GarminDB installation, and full or incremental data download |
-| 4 · From SQLite to R | `04-extracting-data-dbplyr.R` | Database inspection, lazy tables, running activities, and comparison with SQL |
-| 5 · A place for everything | `05-a-place-for-everything.R` | General project and script structure template |
-| 6 · Finding the right variable | `06-finding-right-variable.R` | Run features, five plots, and weekly training summaries |
-| 7 · Extracting the signal from its background | `07-extracting-signal-from-background.R` | Lap classification, continuity examples, three inspection plots, and labelled laps |
-| 8 · The five miles I never ran | `08-five-miles-i-never-ran.R` | Preparation from the database, both distance-scaling scenarios, two plots, fitted trends, and forecasts |
-| 9 · Mapping My Playground | `09-mapping-playground.R` | GPS density, entry counts and towers, and satellite route panels |
+| Chapter | Script | Default data period | Purpose |
+| --- | --- | --- | --- |
+| 2 · GitHub: Terra Incognita | `02-github-terra-incognita.sh` | Not applicable | Set up GarminDB and download or update activities. |
+| 4 · From SQLite to R | `04-extracting-data-dbplyr.R` | 29 June–27 July 2026 | Inspect database tables, query activities lazily, and compare dbplyr with SQL. |
+| 5 · A place for everything | `05-a-place-for-everything.R` | Not applicable | Create the project folders and script structure template. |
+| 6 · Finding the right variable | `06-finding-right-variable.R` | 29 June–13 August 2026 | Build run features, weekly summaries, and five figures. |
+| 7 · Extracting the signal from its background | `07-extracting-signal-from-background.R` | 29 June–30 August 2026 | Classify laps, inspect continuity, and save labelled laps. |
+| 8 · The five miles I never ran | `08-five-miles-i-never-ran.R` | 29 June–11 September 2026 | Prepare workouts, scale distances, fit trends, and make forecasts. |
+| 9 · Mapping My Playground | `09-mapping-playground.R` | 29 June–2 October 2026 | Map GPS density, entry counts, towers, and satellite routes. |
+
 
 ## Set up your data
 
@@ -54,15 +55,10 @@ Package installation is a separate setup step.
 
 ## Match the posts or use your own programme
 
-The date filters preserve the datasets used for the published results:
-
-| Chapter | Included running activities |
-| --- | --- |
-| 4 | 29 June–27 July 2026; database-wide counts also end before 28 July |
-| 6 | 29 June–13 August 2026, matching the published fourteen-row table |
-| 7 | 29 June–30 August 2026 |
-| 8 | The original preparation filter, from 29 June to before 12 September 2026 |
-| 9 | 29 June–2 October 2026, matching the rendered maps' 16,206 local GPS records from 24 runs |
+The periods in the table use inclusive dates. They preserve the data used in the
+posts: chapter 6 has fourteen activities, chapter 7 has nineteen activities and
+303 laps, and chapter 9 has 24 runs and 16,206 local GPS records. Chapter 4's
+database-wide counts also stop on 27 July 2026.
 
 Your own Garmin history will produce your own results. Adapt the programme dates,
 recovery weeks, session-name matching, and easy-run activity IDs to your training
